@@ -6,14 +6,26 @@ public class AxeThrowController : MonoBehaviour
 {
     public float moveSpeed;
     private new Rigidbody rigidbody;
+    private bool hit;
 
-    private void Start()
+    void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = transform.forward * moveSpeed;
     }
 
-    private void Update()
+    void Update()
     {
-        rigidbody.velocity = transform.forward * moveSpeed;
+        if(!hit)
+        {
+            rigidbody.AddTorque(transform.right * moveSpeed * 2);
+        }
+
+        Destroy(gameObject, 20);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        hit = true;
     }
 }

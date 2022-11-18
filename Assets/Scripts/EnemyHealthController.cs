@@ -1,34 +1,63 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyHealthController : MonoBehaviour
 {
     public int maxHealth, dealDamage;
-    private int curHealth;
+    [HideInInspector]
+    public int curHealth;
     public bool isMage;
     private float timeToHeal = 1;
 
-    // Start is called before the first frame update
+    public GameObject healthBar;
+    private PlayerMovementController player;
+
+    public GameObject[] dismembermentElements;
+    public Transform[] dismembermentTransforms;
+
+    public GameObject[] pickUps;
+
     void Start()
     {
         curHealth = maxHealth;
+        player = FindObjectOfType<PlayerMovementController>();
+
+        GameManager.instance.enemiesAlive.Add(this);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(curHealth <= 0)
         {
-            GetComponent<EnemyController>().enabled = false;
-            GetComponent<NavMeshAgent>().enabled = false;
-            GetComponent<CapsuleCollider>().enabled = false;
-            GetComponent<Animator>().Play("EnemyDeath");
-            Destroy(gameObject, 10);
+            EnemyDeath();
         }
 
         if(curHealth > 0 && curHealth < maxHealth)
         {
             Heal();
+        }
+
+        HealthBarController();
+    }
+
+    public void HealthBarController()
+    {
+        if (curHealth == maxHealth || curHealth <= 0)
+        {
+            healthBar.SetActive(false);
+        }
+        else
+        {
+            healthBar.SetActive(true);
+        }
+
+        if (healthBar != null)
+        {
+            healthBar.transform.LookAt(player.transform);
+            healthBar.transform.rotation = Quaternion.Euler(0, healthBar.transform.rotation.eulerAngles.y, 0);
+
+            healthBar.GetComponent<Slider>().value = curHealth;
         }
     }
 
@@ -49,5 +78,31 @@ public class EnemyHealthController : MonoBehaviour
                 timeToHeal = 1;
             }
         }
+    }
+
+    private void EnemyDeath()
+    {
+        Instantiate(dismembermentElements[0], dismembermentTransforms[0].position, dismembermentTransforms[0].rotation);
+        Instantiate(dismembermentElements[1], dismembermentTransforms[1].position, dismembermentTransforms[1].rotation);
+        Instantiate(dismembermentElements[2], dismembermentTransforms[2].position, dismembermentTransforms[2].rotation);
+        Instantiate(dismembermentElements[3], dismembermentTransforms[3].position, dismembermentTransforms[3].rotation);
+        Instantiate(dismembermentElements[4], dismembermentTransforms[4].position, dismembermentTransforms[4].rotation);
+
+        int randomValue = Random.Range(0, 100);
+        if(randomValue < 15)
+        {
+            Instantiate(pickUps[0], transform.position, Quaternion.identity);
+        }
+        else if (randomValue > 15 && randomValue < 30)
+        {
+            Instantiate(pickUps[1], transform.position, Quaternion.identity);
+        }
+        else
+        {
+
+        }
+
+        GameManager.instance.enemiesAlive.Remove(this);
+        Destroy(gameObject);
     }
 }

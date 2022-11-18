@@ -3,35 +3,65 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
 
     private Animator animator;
 
-    public Transform player;
+    private Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
-
     public Vector3 walkPoint;
     bool walkPointSet;
-    public float walkPointRange;
+    private float walkPointRange = 5f;
 
-    public float timeBetweenAttacks;
+    private float timeBetweenAttacks = 0.5f;
     bool alreadyAttacked;
 
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
-    public bool isChaseing, isAttacking;
+    private float attackRange;
+    private float sightRange = 100;
+    private bool playerInSightRange, playerInAttackRange;
+    private bool isChaseing, isAttacking;
 
-    public bool isMage, isArcher;
+    private bool isMage, isArcher;
     public GameObject arrowPrefab, ballPrefab;
+
+    public EnemyType type;
+
+    public enum EnemyType
+    {
+        Skeleton,
+        Warrior,
+        Archer,
+        Mage
+    }
 
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        switch(type)
+        {
+            case EnemyType.Skeleton:
+                attackRange = 1;
+                break;
+
+            case EnemyType.Warrior:
+                attackRange = 1.2f;
+                break;
+
+            case EnemyType.Archer:
+                attackRange = 15;
+                isArcher = true;
+                break;
+
+            case EnemyType.Mage:
+                attackRange = 10;
+                isMage = true;
+                break;
+        }
     }
 
     private void Update()
