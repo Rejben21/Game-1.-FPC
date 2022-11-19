@@ -17,6 +17,7 @@ public class PlayerCombatController : MonoBehaviour
     private float throwCounter;
     public GameObject axeThrowTimer;
     public GameObject bombPrefab;
+    public Text bombsText;
     public int bombs = 3;
     private float isAttackingTimer = 2f;
     private float AttackingCounter;
@@ -32,12 +33,14 @@ public class PlayerCombatController : MonoBehaviour
 
     void Update()
     {
+        bombsText.text = " " + bombs.ToString() + "/3";
+
         if(isAttacking)
         {
             AttackingCounter -= Time.deltaTime;
         }
 
-        if (isAttackingTimer <= 0)
+        if (AttackingCounter <= 0)
         {
             isAttacking = false;
             AttackingCounter = isAttackingTimer;
