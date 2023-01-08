@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     public Text waveText;
     public int wave;
 
+    private int minEnemy = 0;
+    private int maxEnemy = 0;
+
     private void Awake()
     {
         instance = this;
@@ -59,6 +62,34 @@ public class GameManager : MonoBehaviour
         {
             hasStarted = false;
             Victory();
+        }
+
+        switch(wave)
+        {
+            case 1:
+                minEnemy = 0;
+                maxEnemy = 1;
+                break;
+
+            case 2:
+                minEnemy = 0;
+                maxEnemy = 2;
+                break;
+
+            case 3:
+                minEnemy = 0;
+                maxEnemy = 3;
+                break;
+
+            case 4:
+                minEnemy = 0;
+                maxEnemy = 4;
+                break;
+
+            case 5:
+                minEnemy = 1;
+                maxEnemy = 4;
+                break;
         }
     }
 
@@ -112,7 +143,7 @@ public class GameManager : MonoBehaviour
             if (isSpawning)
             {
                 int randomSpawner = Random.Range(0, spawners.Length);
-                int randomEnemy = Random.Range(0, enemies.Length);
+                int randomEnemy = Random.Range(minEnemy, maxEnemy);
 
                 Instantiate(enemies[randomEnemy], spawners[randomSpawner].transform.position, Quaternion.identity);
                 spawnCounter = timeToSpawn;

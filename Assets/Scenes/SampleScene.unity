@@ -3179,7 +3179,7 @@ MonoBehaviour:
 
     Throw axe: E
 
-    Throw Bomb: Q'
+    Throw bomb: Q'
 --- !u!222 &210197777
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11198,7 +11198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &491738673
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34781,7 +34781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1697830991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -53944,12 +53944,12 @@ MonoBehaviour:
   m_Text: 'Survive 5 waves
 
 
-    Skeleton: 10 HP, 1 attack range, speed 4
+    Skeleton: 5 HP, 1 attack range, speed 4
 
     Warior:
     20 HP, 1.2 attack range, speed 3.5
 
-    Archer: 15 HP, 15 attack range, speed
+    Archer: 10 HP, 15 attack range, speed
     5
 
     Mage: 10 HP, 10 attack range, speed 4, can heal'

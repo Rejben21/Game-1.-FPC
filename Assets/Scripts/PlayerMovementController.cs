@@ -6,7 +6,7 @@ public class PlayerMovementController : MonoBehaviour
 {
     public CharacterController controller;
 
-    public float moveSpeed = 7f;
+    public float moveSpeed = 4f;
     public float gravity = -9.81f;
     public float jumpForce = 1.5f;
 
@@ -17,8 +17,11 @@ public class PlayerMovementController : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    private PlayerHealthController playerHealth;
+
     void Start()
     {
+        playerHealth = GetComponent<PlayerHealthController>();
         controller = GetComponent<CharacterController>();
     }
 
@@ -34,7 +37,7 @@ public class PlayerMovementController : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.forward * z;
+        Vector3 move = (transform.right * x + transform.forward * z).normalized;
 
         controller.Move(move * moveSpeed * Time.deltaTime);
 
